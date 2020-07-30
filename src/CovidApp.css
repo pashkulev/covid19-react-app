@@ -1,0 +1,35 @@
+.CovidApp {
+  
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+  text-align: left;
+}
+
+.filter-panel {
+  padding-left: 20px;
+  padding-top: 20px;
+  border: 2px solid #ccc;
+}
+
+.header {
+  background-color:#204cac;
+  color: white;
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+}
+
+#worldwideStatsButton {
+  padding: 10px 0 10px 0;
+  font-weight: 500;
+  font-size: larger;
+}
+
+.footer {
+  background-color: #204cac;;
+}
+
+.content {
+
+}
