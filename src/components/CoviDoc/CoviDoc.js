@@ -3,8 +3,7 @@ import Plot from 'react-plotly.js';
 import './CoviDoc.css';
 
 const CoviDoc = (props) => {
-    const coviDocs = props.covidocs;
-    const data = prepareData(props, coviDocs);
+    const data = prepareData(props);
     const layout = {title: props.plotHeader};
 
     return (
@@ -14,45 +13,45 @@ const CoviDoc = (props) => {
     );
 };
 
-const prepareData = (props, coviDocs) => {
+const prepareData = (props) => {
     const tracesData = [];
-    const timeline = coviDocs.map(coviDoc => coviDoc.observationDate);
+    const timeline = props.covidocs.map(coviDoc => coviDoc.observationDate);
+
+    const commonProps = {
+        x: timeline,
+        mode: 'lines+markers',
+        type: 'scatter'
+    }
 
     if (props.showConfirmed) {
-        const confirmed = coviDocs.map(coviDoc => coviDoc.confirmed);
+        const confirmed = props.covidocs.map(coviDoc => coviDoc.confirmed);
 
         tracesData.push({
             name: "Confirmed",
-            x: timeline,
             y: confirmed,
-            mode: 'lines+markers',
-            type: 'scatter'
+            ...commonProps
         });
     }
 
     if (props.showRecovered) {
-        const recovered = coviDocs.map(coviDoc => coviDoc.recovered);
+        const recovered = props.covidocs.map(coviDoc => coviDoc.recovered);
 
         tracesData.push({
             name: "Recovered",
             marker: {color: "green"},
-            x: timeline,
             y: recovered,
-            mode: 'lines+markers',
-            type: 'scatter'
+            ...commonProps
         });
     }
 
     if (props.showDeaths) {
-        const deaths = coviDocs.map(coviDoc => coviDoc.deaths);
+        const deaths = props.covidocs.map(coviDoc => coviDoc.deaths);
 
         tracesData.push({
             name: "Deaths",
             marker: {color: "red"}, 
-            x: timeline,
             y: deaths,
-            mode: 'lines+markers',
-            type: 'scatter'
+            ...commonProps
         });
     }
 

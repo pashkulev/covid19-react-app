@@ -7,6 +7,10 @@ input[type="checkbox"] {
   text-align: left;
 }
 
+button {
+  width: 100%;
+}
+
 .filter-panel {
   padding-left: 20px;
   padding-top: 20px;
@@ -20,11 +24,11 @@ input[type="checkbox"] {
   padding: 10px 0px 10px 0px;
 }
 
-#worldwideStatsButton {
+/* #worldwideStatsButton {
   padding: 10px 0 10px 0;
   font-weight: 500;
   font-size: larger;
-}
+} */
 
 .footer {
   background-color: #204cac;;

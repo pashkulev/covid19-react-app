@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import CoviDoc from './CoviDoc/CoviDoc';
-import LegendBox from './LegendBox/LegendBox';
-import Footer from './components/Footer';
+import CoviDocService from './services/CoviDocService';
+import CoviDoc from './components/CoviDoc/CoviDoc';
+import LegendBox from './components/LegendBox/LegendBox';
+import Footer from './components/Footer/Footer';
 import './CovidApp.css';
 
 const WORLDWIDE_COVID_STATISTICS = "Worldwide Covid Statistics";
 
 class CovidApp extends Component {
   state = {
+    isPlotView: true,
     country_regions: [],
     selected_country_region: "",
     defaultCountryRegion: "",
@@ -20,57 +22,55 @@ class CovidApp extends Component {
     showDeaths: true
   };
 
-  componentDidMount() {
-    fetch("http://localhost:3001/country-region")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            country_regions: result,
-            province_states: [],
-            defaultCountryRegion: result[0]
-          });
-        });
-    this.worldwideStatsButtonHandler();
-  }
+  componentDidMount = async () => {
+    try {
+      const countryRegions = await CoviDocService.getCountryRegions();
 
-  countryRegionChangedHandler = (event) => {
-    const countryRegion = event.target.value;
-    fetch("http://localhost:3001/province-state?country_region=" + countryRegion)
-      .then(res => res.json())
-      .then(provinceStates => {
-        fetch("http://localhost:3001/country-region-stats?name=" + countryRegion)
-            .then(res => res.json())
-            .then(result => {
-              const newState = {
-                selected_country_region: countryRegion,
-                covidocs: result,
-                plotHeader: 'Covid Statistics for ' + countryRegion,
-                selected_state_province: "",
-                province_states: provinceStates.length !== 0 ? provinceStates : []
-              };
-
-              this.setState(newState);
-            }).catch(error => console.log(error)); 
-        
-      }).catch(error => {
-        console.log(error);
+      this.setState({
+        country_regions: countryRegions,
+        province_states: [],
+        defaultCountryRegion: countryRegions[0]
       });
+
+      this.worldwideStatsButtonHandler();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  stateProvinceChangedHandler = (event) => {
-    const provinceState = event.target.value;
-    fetch("http://localhost:3001/covidocs?country_region=" + this.state.selected_country_region + "&province_state=" + provinceState)
-      .then(res => res.json())
-      .then(covidocs => {
-        this.setState({
-          selected_state_province: provinceState,
-          covidocs: covidocs,
-          plotHeader: 'Covid Statistics for ' + this.state.selected_country_region + " (" + provinceState + ")"
-        });
-      }).catch(error => {
-        console.log(error);
+  countryRegionChangedHandler = async (event) => {
+    try {
+      const countryRegion = event.target.value;
+      const provinceStates = await CoviDocService.getProvinceStatesByCountryRegion(countryRegion);
+      const countryRegionCovidocs = await CoviDocService.getCoviDocsByCountryRegion(countryRegion);
+
+      const newState = {
+        selected_country_region: countryRegion,
+        covidocs: countryRegionCovidocs,
+        plotHeader: 'Covid Statistics for ' + countryRegion,
+        selected_state_province: "",
+        province_states: provinceStates.length !== 0 ? provinceStates : []
+      };
+
+      this.setState(newState);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  stateProvinceChangedHandler = async (event) => {
+    try {
+      const provinceState = event.target.value;
+      const provinceStateCovidocs = await CoviDocService.getCoviDocsByProvinceState(this.state.selected_country_region, provinceState);
+    
+      this.setState({
+        selected_state_province: provinceState,
+        covidocs: provinceStateCovidocs,
+        plotHeader: 'Covid Statistics for ' + this.state.selected_country_region + " (" + provinceState + ")"
       });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   tracesCheckboxHandler = (event) => {
@@ -82,20 +82,25 @@ class CovidApp extends Component {
     }
   };
 
-  worldwideStatsButtonHandler = () => {
-    fetch("http://localhost:3001/worldwide-stats")
-      .then(res => res.json())
-      .then(result => {
-        this.setState({
-          covidocs: result,
-          plotHeader: WORLDWIDE_COVID_STATISTICS,
-          selected_country_region: this.state.defaultCountryRegion,
-          province_states: []
-        });
-      })
-      .catch(error => {
-        console.log(error);
+  worldwideStatsButtonHandler = async () => {
+    try {
+      const covidocs = await CoviDocService.getWorldwideStatistics();
+      
+      this.setState({
+        covidocs: covidocs,
+        plotHeader: WORLDWIDE_COVID_STATISTICS,
+        selected_country_region: this.state.defaultCountryRegion,
+        province_states: []
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  switchViewHandler = () => {
+    this.setState({
+      isPlotView: !this.state.isPlotView
+    });
   };
 
   render() {
@@ -104,16 +109,25 @@ class CovidApp extends Component {
 
     return (
       <div className="CovidApp container-fluid">
-        <div class="row">
+        <div className="row">
           <h1 className="col-12 header">Covid-19 Statistics App</h1>
         </div>   
         <div className="row p-3 content">
           <div className="col-3 filter-panel">
-            {this.state.plotHeader !== WORLDWIDE_COVID_STATISTICS ? (
-              <div>
-                <button id="worldwideStatsButton" className="btn-warning w-100 mb-2" onClick={this.worldwideStatsButtonHandler}>See Worldwide Statistics</button>
-              </div>) : null
-            }
+            <div className="row mb-3">
+              <span className="col-6">
+                <button 
+                  id="worldwideStatsButton" 
+                  className="btn-warning" 
+                  onClick={this.worldwideStatsButtonHandler}>See Worldwide Statistics</button>
+              </span>
+              <span className="col-6">
+                <button 
+                  id="switchView" 
+                  className="btn-primary" 
+                  onClick={this.switchViewHandler}>{this.state.isPlotView ? 'Table' : 'Plot'} View</button>
+              </span>          
+            </div>
             <div className="form-group">
               <label>Filter by Country/Region:</label>
               <select 
