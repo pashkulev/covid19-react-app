@@ -34,6 +34,15 @@ button {
   background-color: #204cac;;
 }
 
-.content {
+.handle {
+  padding: 5px;
+  width: 100%;
+  background-color: #204cac;
+  color: white;
+  text-align: center;
+  height: 30px;
+}
 
+.handle:hover {
+  cursor: move;
 }

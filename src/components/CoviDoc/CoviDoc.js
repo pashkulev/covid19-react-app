@@ -1,61 +1,82 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Plot from 'react-plotly.js';
+import Draggable from 'react-draggable';
 import './CoviDoc.css';
 
-const CoviDoc = (props) => {
-    const data = prepareData(props);
-    const layout = {title: props.plotHeader};
+export default class CoviDoc extends Component {
 
-    return (
-        <div className="CoviDoc">
-            <Plot data={data} layout={layout} style={{ width: '100%', height: '100%' }}/>   
-        </div>
-    );
-};
-
-const prepareData = (props) => {
-    const tracesData = [];
-    const timeline = props.covidocs.map(coviDoc => coviDoc.observationDate);
-
-    const commonProps = {
-        x: timeline,
-        mode: 'lines+markers',
-        type: 'scatter'
+    state = {
+        showHint: false
     }
 
-    if (props.showConfirmed) {
-        const confirmed = props.covidocs.map(coviDoc => coviDoc.confirmed);
+    mouseOverHandler = () => {
+        this.setState({showHint: true});
+    };
 
-        tracesData.push({
-            name: "Confirmed",
-            y: confirmed,
-            ...commonProps
-        });
+    mouseOutHandler = () => {
+        this.setState({showHint: false});
+    };
+    
+    render = () => {
+        const data = this.prepareData(this.props);
+        const layout = {title: this.props.plotHeader};
+
+        return (
+            <Draggable handle=".handle">
+                <div className="CoviDoc text-center">
+                    <div className="box no-cursor">
+                        <div className="handle" onMouseOver={this.mouseOverHandler} onMouseOut={this.mouseOutHandler}>
+                            {this.state.showHint ? <span>Move Me</span> : null}
+                        </div>
+                    </div>
+                    <Plot data={data} layout={layout} style={{width: '75%'}}/>   
+                </div>
+            </Draggable>
+        );
+    };
+
+    prepareData = (props) => {
+        const tracesData = [];
+        const timeline = props.covidocs.map(coviDoc => coviDoc.observationDate);
+
+        const commonProps = {
+            x: timeline,
+            mode: 'lines+markers',
+            type: 'scatter'
+        }
+
+        if (props.showConfirmed) {
+            const confirmed = props.covidocs.map(coviDoc => coviDoc.confirmed);
+
+            tracesData.push({
+                name: "Confirmed",
+                y: confirmed,
+                ...commonProps
+            });
+        }
+
+        if (props.showRecovered) {
+            const recovered = props.covidocs.map(coviDoc => coviDoc.recovered);
+
+            tracesData.push({
+                name: "Recovered",
+                marker: {color: "green"},
+                y: recovered,
+                ...commonProps
+            });
+        }
+
+        if (props.showDeaths) {
+            const deaths = props.covidocs.map(coviDoc => coviDoc.deaths);
+
+            tracesData.push({
+                name: "Deaths",
+                marker: {color: "red"}, 
+                y: deaths,
+                ...commonProps
+            });
+        }
+
+        return tracesData;
     }
-
-    if (props.showRecovered) {
-        const recovered = props.covidocs.map(coviDoc => coviDoc.recovered);
-
-        tracesData.push({
-            name: "Recovered",
-            marker: {color: "green"},
-            y: recovered,
-            ...commonProps
-        });
-    }
-
-    if (props.showDeaths) {
-        const deaths = props.covidocs.map(coviDoc => coviDoc.deaths);
-
-        tracesData.push({
-            name: "Deaths",
-            marker: {color: "red"}, 
-            y: deaths,
-            ...commonProps
-        });
-    }
-
-    return tracesData;
 }
-
-export default CoviDoc;
