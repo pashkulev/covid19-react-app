@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import Navigation from './components/Navigation/Navigation';
 import CoviDoc from "./components/CoviDoc/CoviDoc";
+import BarPlot from "./components/BarPlot/BarPlot";
+import LineListData from "./components/LineListData/LIneListData";
 import Footer from "./components/Footer/Footer";
 import "./CovidApp.css";
 
@@ -9,14 +12,16 @@ class CovidApp extends Component {
   render() {
     return (
       <div className="CovidApp container-fluid">
-        <div className="row">
-          <h1 className="col-12 header">Covid-19 Statistics App</h1>
-        </div>
+        <Navigation/>
         <div className="row">
           <div className="col-6">
             <CoviDoc/>
           </div>
+          <div className="col-6">
+            <BarPlot/>
+          </div>
         </div>
+        <LineListData/>
         <Footer />
       </div>
     );

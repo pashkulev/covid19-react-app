@@ -1,7 +1,6 @@
 import React from "react";
 
 const DropdownComponent = (props) => {
-  console.log(props);
   const options = props.optionValues.map((e, index) => (
     <option key={index} value={e}>
       {e}

@@ -30,7 +30,7 @@ button {
 } */
 
 .footer {
-  background-color: #204cac;;
+  background-color: #204cac;
 }
 
 .handle {
@@ -44,4 +44,16 @@ button {
 
 .handle:hover {
   cursor: move;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+.form-group {
+  display: inline-block;
+}
+
+.bar-plot {
+  border: 1px solid #333;
 }

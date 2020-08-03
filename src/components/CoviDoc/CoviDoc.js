@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Plot from "react-plotly.js";
 import Draggable from "react-draggable";
+import ScatterPlot from "../ScatterPlot/ScatterPlot";
 import LegendBox from "../LegendBox/LegendBox";
 import ObservationPeriod from "../ObservationPeriodBox/ObservationPeriodBox";
 import DropdownComponent from "../Dropdown/Dropdown";
@@ -119,55 +119,41 @@ export default class CoviDoc extends Component {
     }
   };
 
-  mouseOverPlotTitleHandler = () => {
-    this.setState({ showMoveMeHint: true });
-  };
-
-  mouseOutOfPlotTitleHandler = () => {
-    this.setState({ showMoveMeHint: false });
-  };
-
   render = () => {
-    const data = this.prepareData();
-    const layout = { title: this.state.plotHeader };
-
     return (
       <Draggable handle=".handle">
-        <div className="CoviDoc">
-          <div>
-            <div className="box no-cursor">
-              <div
-                className="handle"
-                onMouseOver={this.mouseOverPlotTitleHandler}
-                onMouseOut={this.mouseOutOfPlotTitleHandler}
-              >
-                {this.state.showMoveMeHint ? 'Move Me' : 'Covidocs Plot'}
-              </div>
-            </div>
-            {this.state.covidocs.length > 0 ? (
-              <Plot data={data} layout={layout} style={{ width: "95%" }} />
-            ) : null}
-            <hr/>
-            <div className="filter-panel row">
-              <div className="col-6 mb-3">
-                <DropdownComponent
-                  id="countryRegions"
-                  optionValues={this.state.country_regions}
-                  label="Country/Region"
-                  selected={this.state.selected_country_region}
-                  changeHandler={this.countryRegionChangedHandler}
-                />
+        <div className="CoviDoc row">
+          {this.state.covidocs.length > 0 ? (
+            <ScatterPlot
+              covidocs={this.state.covidocs}
+              plotHeader={this.state.plotHeader}
+              showConfirmed={this.state.showConfirmed}
+              showRecovered={this.state.showRecovered}
+              showDeaths={this.state.showDeaths}
+            />
+          ) : null}
+          <hr />
+          <div className="filter-panel row">
+            <div className="col-6">
+              <DropdownComponent
+                id="countryRegions"
+                optionValues={this.state.country_regions}
+                label="Country/Region"
+                selected={this.state.selected_country_region}
+                changeHandler={this.countryRegionChangedHandler}
+              />
 
-                {this.state.province_states.length > 0 ? (
-                  <DropdownComponent
-                    id="provinceStates"
-                    optionValues={this.state.province_states}
-                    label="Province/State"
-                    selected={this.state.selected_state_province}
-                    changeHandler={this.stateProvinceChangedHandler}
-                  />
-                ) : null}
-                <div>
+              {this.state.province_states.length > 0 ? (
+                <DropdownComponent
+                  id="provinceStates"
+                  optionValues={this.state.province_states}
+                  label="Province/State"
+                  selected={this.state.selected_state_province}
+                  changeHandler={this.stateProvinceChangedHandler}
+                />
+              ) : null}
+              <div className="row">
+                <div className="col-sm-12 col-md-4">
                   <input
                     type="checkbox"
                     id="confirmedCheckbox"
@@ -177,7 +163,8 @@ export default class CoviDoc extends Component {
                     onChange={this.tracesCheckboxHandler}
                   />
                   <label htmlFor="confirmedCheckbox">Confirmed</label>
-
+                </div>
+                <div className="col-sm-12 col-md-4">
                   <input
                     type="checkbox"
                     id="recoveredCheckbox"
@@ -187,7 +174,8 @@ export default class CoviDoc extends Component {
                     onChange={this.tracesCheckboxHandler}
                   />
                   <label htmlFor="recoveredCheckbox">Recovered</label>
-
+                </div>
+                <div className="col-md-12 col-lg-4">
                   <input
                     type="checkbox"
                     id="deathsCheckbox"
@@ -198,76 +186,29 @@ export default class CoviDoc extends Component {
                   />
                   <label htmlFor="deathsCheckbox">Deaths</label>
                 </div>
-                <div>
-                  <button
-                    id="worldwideStatsButton"
-                    className="btn-warning"
-                    hidden={this.state.plotHeader === WORLDWIDE_COVID_STATISTICS}
-                    onClick={this.worldwideStatsButtonHandler}
-                  >
-                    See Worldwide Statistics
-                  </button>
-                </div>
               </div>
-
-              {this.state.covidocs.length > 0 ? (
-                <div className="col-6">
-                  <LegendBox />
-                  <hr />
-                  <ObservationPeriod covidocs={this.state.covidocs} />
-                </div>
-              ) : null}
+              <div>
+                <button
+                  id="worldwideStatsButton"
+                  className="btn-warning"
+                  hidden={this.state.plotHeader === WORLDWIDE_COVID_STATISTICS}
+                  onClick={this.worldwideStatsButtonHandler}
+                >
+                  See Worldwide Statistics
+                </button>
+              </div>
             </div>
+
+            {this.state.covidocs.length > 0 ? (
+              <div className="col-6">
+                <LegendBox />
+                <hr />
+                <ObservationPeriod covidocs={this.state.covidocs} />
+              </div>
+            ) : null}
           </div>
         </div>
       </Draggable>
     );
-  };
-
-  prepareData = () => {
-    const tracesData = [];
-    const timeline = this.state.covidocs.map(
-      (coviDoc) => coviDoc.observationDate,
-    );
-
-    const commonProps = {
-      x: timeline,
-      mode: "lines+markers",
-      type: "scatter",
-    };
-
-    if (this.state.showConfirmed) {
-      const confirmed = this.state.covidocs.map((coviDoc) => coviDoc.confirmed);
-
-      tracesData.push({
-        name: "Confirmed",
-        y: confirmed,
-        ...commonProps,
-      });
-    }
-
-    if (this.state.showRecovered) {
-      const recovered = this.state.covidocs.map((coviDoc) => coviDoc.recovered);
-
-      tracesData.push({
-        name: "Recovered",
-        marker: { color: "green" },
-        y: recovered,
-        ...commonProps,
-      });
-    }
-
-    if (this.state.showDeaths) {
-      const deaths = this.state.covidocs.map((coviDoc) => coviDoc.deaths);
-
-      tracesData.push({
-        name: "Deaths",
-        marker: { color: "red" },
-        y: deaths,
-        ...commonProps,
-      });
-    }
-
-    return tracesData;
   };
 }
