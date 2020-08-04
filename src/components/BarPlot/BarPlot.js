@@ -70,73 +70,74 @@ export default class BarPlot extends Component {
 
     return (
       <Draggable handle=".handle">
-        <div className="container bar-plot">
-          <div className="row">
+        <div className="container">
+          <div className="row mt-3">
             <div className="col-12">
               <Handle title="Bar Plot" />
             </div>
           </div>
-
           <div className="row">
-            <div className="col-3 navigation-panel">
-              <div className="row">
-                <div className="col-12 mx-auto">
-                  <Pagination
-                    prevPageText="Prev"
-                    nextPageText="Next"
-                    firstPageText="First"
-                    lastPageText="Last"
-                    activePage={this.state.pageNumber}
-                    itemsCountPerPage={PAGE_SIZE}
-                    pageRangeDisplayed="3"
-                    totalItemsCount={this.state.coutryRegionData.length}
-                    hideFirstLastPages={true}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    onChange={this.pageChangedHandler}
+            <div className="col-12 navigation-panel d-flex justify-content-between">
+              
+              <div className="form-inline">
+                <div className="form-group">
+                  <input
+                    id="confirmedRadioButton"
+                    name="selectedStatistic"
+                    type="radio"
+                    value="confirmed"
+                    onChange={this.selectedStatisticChangedHandler}
+                    checked={this.state.selectedStatistic === "confirmed"}
                   />
+                  <label htmlFor="confirmedRadioButton">Confirmed</label>
+                </div>
+                <div className="form-group">
+                  <input
+                    id="recoveredRadioButton"
+                    name="selectedStatistic"
+                    type="radio"
+                    value="recovered"
+                    onChange={this.selectedStatisticChangedHandler}
+                    checked={this.state.selectedStatistic === "recovered"}
+                  />
+                  <label htmlFor="recoveredRadioButton">Recovered</label>
+                </div>
+                <div className="form-group">
+                  <input
+                    id="deathsRadioButton"
+                    name="selectedStatistic"
+                    type="radio"
+                    value="deaths"
+                    onChange={this.selectedStatisticChangedHandler}
+                    checked={this.state.selectedStatistic === "deaths"}
+                  />
+                  <label htmlFor="deathsRadioButton">Deaths</label>
                 </div>
               </div>
-              <div className="form-group">
-                <input
-                  id="confirmedRadioButton"
-                  name="selectedStatistic"
-                  type="radio"
-                  value="confirmed"
-                  onChange={this.selectedStatisticChangedHandler}
-                  checked={this.state.selectedStatistic === "confirmed"}
+              <div>
+                <Pagination
+                  prevPageText="Prev"
+                  nextPageText="Next"
+                  firstPageText="First"
+                  lastPageText="Last"
+                  activePage={this.state.pageNumber}
+                  itemsCountPerPage={PAGE_SIZE}
+                  totalItemsCount={this.state.coutryRegionData.length}
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  onChange={this.pageChangedHandler}
                 />
-                <label htmlFor="confirmedRadioButton">Confirmed</label>
-              </div>
-              <div className="form-group">
-                <input
-                  id="recoveredRadioButton"
-                  name="selectedStatistic"
-                  type="radio"
-                  value="recovered"
-                  onChange={this.selectedStatisticChangedHandler}
-                  checked={this.state.selectedStatistic === "recovered"}
-                />
-                <label htmlFor="recoveredRadioButton">Recovered</label>
-              </div>
-              <div className="form-group">
-                <input
-                  id="deathsRadioButton"
-                  name="selectedStatistic"
-                  type="radio"
-                  value="deaths"
-                  onChange={this.selectedStatisticChangedHandler}
-                  checked={this.state.selectedStatistic === "deaths"}
-                />
-                <label htmlFor="deathsRadioButton">Deaths</label>
               </div>
             </div>
-            <div className="col-9">
+          </div>
+
+          <div className="row">
+            <div className="col-12">
               <Plot
                 data={data}
                 layout={layout}
                 config={config}
-                style={{ width: "95%" }}
+                style={{ width: "100%"}}
               />
             </div>
           </div>

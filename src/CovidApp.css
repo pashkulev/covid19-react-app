@@ -3,23 +3,32 @@ input[type="checkbox"] {
   text-align: left;
 }
 
+label {
+  margin-right: 20px;
+}
+
+/* input[type="radio"] {
+  margin-right: 10px;
+  text-align: left;
+} */
+
 .filter-panel {
   padding-left: 20px;
   padding-top: 20px;
-  background-color: #dbeaf3;
+  background-color: #d7dee2;
   height: 100%;
 }
 
 .navigation-panel {
   padding-top: 20px;
-  background-color: #dbeaf3;
+  background-color: #d7dee2;;
   height: 100%;
 }
 
 .handle {
   padding: 5px;
   width: 100%;
-  background-color: #2d3f68;
+  background-color: #41485a;
   color: white;
   text-align: center;
   height: 30px;
@@ -31,11 +40,6 @@ input[type="checkbox"] {
 
 input[type="radio"] {
   margin-right: 10px;
-}
-
-.bar-plot {
-  /* border: 1px solid #333; */
-  /* height: auto; */
 }
 
 .scatter-plot {

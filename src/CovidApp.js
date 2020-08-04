@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
-import CoviDoc from "./components/CoviDoc/CoviDoc";
-import BarPlot from "./components/BarPlot/BarPlot";
+import PlotsContainer from "./components/PlotsContainer/PlotsContainer";
 import LineListData from "./components/LineListData/LIneListData";
 import Footer from "./components/Footer/Footer";
 import "./CovidApp.css";
@@ -11,29 +11,18 @@ class CovidApp extends Component {
 
   render() {
     return (
-      <div className="CovidApp container-fluid">
-        <Navigation />
-        <div className="row mt-3">
-          <div className="col-12">
-            <CoviDoc />
-          </div>
+      <BrowserRouter>
+        <div className="CovidApp container-fluid">
+          <Navigation />
+
+          <Route path="/" exact>
+            <Redirect to="/plot-view" />
+          </Route>
+          <Route path="/plot-view" component={PlotsContainer} />
+          <Route path="/table-view" component={LineListData} />
+          <Footer />
         </div>
-        <div className="row mt-3">
-          <div className="col-12">
-            <BarPlot />
-          </div>
-        </div>
-        {/* <div className="row mt-3">
-          <div className="col-12">
-            <LineListData />
-          </div>
-        </div> */}
-        <div className="row mt-3">
-          <div className="col-12">
-            <Footer />
-          </div>
-        </div>
-      </div>
+      </BrowserRouter>
     );
   }
 }

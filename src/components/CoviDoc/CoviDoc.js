@@ -123,7 +123,7 @@ export default class CoviDoc extends Component {
   render = () => {
     return (
       <Draggable handle=".handle">
-        <div className="container scatter-plot">
+        <div className="container scatter-plot mt-3">
           <Handle title="Scatter Plot" />
           <div className="row">
             <div className="filter-panel col-3">
