@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Navigation from './components/Navigation/Navigation';
+import Navigation from "./components/Navigation/Navigation";
 import CoviDoc from "./components/CoviDoc/CoviDoc";
 import BarPlot from "./components/BarPlot/BarPlot";
 import LineListData from "./components/LineListData/LIneListData";
@@ -12,17 +12,27 @@ class CovidApp extends Component {
   render() {
     return (
       <div className="CovidApp container-fluid">
-        <Navigation/>
+        <Navigation />
         <div className="row mt-3">
           <div className="col-12">
-            <CoviDoc/>
+            <CoviDoc />
           </div>
-          {/* <div className="col-6">
-            <BarPlot/>
-          </div> */}
         </div>
-        <LineListData/>
-        <Footer />
+        <div className="row mt-3">
+          <div className="col-12">
+            <BarPlot />
+          </div>
+        </div>
+        {/* <div className="row mt-3">
+          <div className="col-12">
+            <LineListData />
+          </div>
+        </div> */}
+        <div className="row mt-3">
+          <div className="col-12">
+            <Footer />
+          </div>
+        </div>
       </div>
     );
   }

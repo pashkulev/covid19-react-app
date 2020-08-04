@@ -7,6 +7,13 @@ input[type="checkbox"] {
   padding-left: 20px;
   padding-top: 20px;
   background-color: #dbeaf3;
+  height: 100%;
+}
+
+.navigation-panel {
+  padding-top: 20px;
+  background-color: #dbeaf3;
+  height: 100%;
 }
 
 .handle {
@@ -27,7 +34,8 @@ input[type="radio"] {
 }
 
 .bar-plot {
-  border: 1px solid #333;
+  /* border: 1px solid #333; */
+  /* height: auto; */
 }
 
 .scatter-plot {
@@ -38,3 +46,7 @@ input[type="radio"] {
 #worldwideStatsButton {
   width: 100%;
 }
+
+/* * {
+  border: 1px solid burlywood;
+} */

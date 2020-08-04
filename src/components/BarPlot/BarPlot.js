@@ -70,21 +70,33 @@ export default class BarPlot extends Component {
 
     return (
       <Draggable handle=".handle">
-        <div className="bar-plot">
+        <div className="container bar-plot">
           <div className="row">
             <div className="col-12">
               <Handle title="Bar Plot" />
-              <Plot
-                data={data}
-                layout={layout}
-                config={config}
-                style={{ width: "95%" }}
-              />
             </div>
           </div>
-          <hr />
+
           <div className="row">
-            <div className="col-6">
+            <div className="col-3 navigation-panel">
+              <div className="row">
+                <div className="col-12 mx-auto">
+                  <Pagination
+                    prevPageText="Prev"
+                    nextPageText="Next"
+                    firstPageText="First"
+                    lastPageText="Last"
+                    activePage={this.state.pageNumber}
+                    itemsCountPerPage={PAGE_SIZE}
+                    pageRangeDisplayed="3"
+                    totalItemsCount={this.state.coutryRegionData.length}
+                    hideFirstLastPages={true}
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    onChange={this.pageChangedHandler}
+                  />
+                </div>
+              </div>
               <div className="form-group">
                 <input
                   id="confirmedRadioButton"
@@ -119,18 +131,12 @@ export default class BarPlot extends Component {
                 <label htmlFor="deathsRadioButton">Deaths</label>
               </div>
             </div>
-            <div className="col-6">
-              <Pagination
-                prevPageText="Prev"
-                nextPageText="Next"
-                firstPageText="First"
-                lastPageText="Last"
-                activePage={this.state.pageNumber}
-                itemsCountPerPage={PAGE_SIZE}
-                totalItemsCount={this.state.coutryRegionData.length}
-                itemClass="page-item"
-                linkClass="page-link"
-                onChange={this.pageChangedHandler}
+            <div className="col-9">
+              <Plot
+                data={data}
+                layout={layout}
+                config={config}
+                style={{ width: "95%" }}
               />
             </div>
           </div>
