@@ -13,13 +13,13 @@ class CovidApp extends Component {
     return (
       <div className="CovidApp container-fluid">
         <Navigation/>
-        <div className="row">
-          <div className="col-6">
+        <div className="row mt-3">
+          <div className="col-12">
             <CoviDoc/>
           </div>
-          <div className="col-6">
+          {/* <div className="col-6">
             <BarPlot/>
-          </div>
+          </div> */}
         </div>
         <LineListData/>
         <Footer />

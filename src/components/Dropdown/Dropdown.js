@@ -9,7 +9,7 @@ const DropdownComponent = (props) => {
 
   return (
     <div className="form-group">
-      <label>Filter by {props.label}:</label>
+      <label htmlFor={props.id}>Filter by {props.label}:</label>
       <select
         id={props.id}
         className="form-control"

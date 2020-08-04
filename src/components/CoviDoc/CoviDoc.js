@@ -5,6 +5,7 @@ import LegendBox from "../LegendBox/LegendBox";
 import ObservationPeriod from "../ObservationPeriodBox/ObservationPeriodBox";
 import DropdownComponent from "../Dropdown/Dropdown";
 import CoviDocService from "../../services/CoviDocService";
+import Handle from "../Handle/Handle";
 import "./CoviDoc.css";
 
 const WORLDWIDE_COVID_STATISTICS = "Worldwide Covid Statistics";
@@ -122,90 +123,98 @@ export default class CoviDoc extends Component {
   render = () => {
     return (
       <Draggable handle=".handle">
-        <div className="CoviDoc row">
-          {this.state.covidocs.length > 0 ? (
-            <ScatterPlot
-              covidocs={this.state.covidocs}
-              plotHeader={this.state.plotHeader}
-              showConfirmed={this.state.showConfirmed}
-              showRecovered={this.state.showRecovered}
-              showDeaths={this.state.showDeaths}
-            />
-          ) : null}
-          <hr />
-          <div className="filter-panel row">
-            <div className="col-6">
-              <DropdownComponent
-                id="countryRegions"
-                optionValues={this.state.country_regions}
-                label="Country/Region"
-                selected={this.state.selected_country_region}
-                changeHandler={this.countryRegionChangedHandler}
-              />
-
-              {this.state.province_states.length > 0 ? (
+        <div className="container scatter-plot">
+          <Handle title="Scatter Plot" />
+          <div className="row">
+            <div className="filter-panel col-3">
+              <div>
                 <DropdownComponent
-                  id="provinceStates"
-                  optionValues={this.state.province_states}
-                  label="Province/State"
-                  selected={this.state.selected_state_province}
-                  changeHandler={this.stateProvinceChangedHandler}
+                  id="countryRegions"
+                  optionValues={this.state.country_regions}
+                  label="Country/Region"
+                  selected={this.state.selected_country_region}
+                  changeHandler={this.countryRegionChangedHandler}
+                />
+
+                {this.state.province_states.length > 0 ? (
+                  <DropdownComponent
+                    id="provinceStates"
+                    optionValues={this.state.province_states}
+                    label="Province/State"
+                    selected={this.state.selected_state_province}
+                    changeHandler={this.stateProvinceChangedHandler}
+                  />
+                ) : null}
+                <div className="row">
+                  <div className="form-group col-12">
+                    <input
+                      type="checkbox"
+                      id="confirmedCheckbox"
+                      name="confirmedCheckbox"
+                      value="Confirmed"
+                      checked={this.state.showConfirmed}
+                      onChange={this.tracesCheckboxHandler}
+                    />
+                    <label htmlFor="confirmedCheckbox">Confirmed</label>
+                  </div>
+                  <div className="form-group col-12">
+                    <input
+                      type="checkbox"
+                      id="recoveredCheckbox"
+                      name="recoveredCheckbox"
+                      value="Recovered"
+                      checked={this.state.showRecovered}
+                      onChange={this.tracesCheckboxHandler}
+                    />
+                    <label htmlFor="recoveredCheckbox">Recovered</label>
+                  </div>
+                  <div className="form-group col-12">
+                    <input
+                      type="checkbox"
+                      id="deathsCheckbox"
+                      name="deathsCheckbox"
+                      value="Deaths"
+                      checked={this.state.showDeaths}
+                      onChange={this.tracesCheckboxHandler}
+                    />
+                    <label htmlFor="deathsCheckbox">Deaths</label>
+                  </div>
+                </div>
+                
+              </div>
+
+              {this.state.covidocs.length > 0 ? (
+                <div>
+                  <LegendBox />
+                  <hr />
+                  <ObservationPeriod covidocs={this.state.covidocs} />
+                </div>
+              ) : null}
+              <hr/>
+              <div className="mb-3">
+                  <button
+                    id="worldwideStatsButton"
+                    className="btn-warning"
+                    hidden={
+                      this.state.plotHeader === WORLDWIDE_COVID_STATISTICS
+                    }
+                    onClick={this.worldwideStatsButtonHandler}
+                  >
+                    Worldwide Statistics
+                  </button>
+                </div>
+            </div>
+            <div className="col-9">
+              {this.state.covidocs.length > 0 ? (
+                <ScatterPlot
+                  covidocs={this.state.covidocs}
+                  plotHeader={this.state.plotHeader}
+                  showConfirmed={this.state.showConfirmed}
+                  showRecovered={this.state.showRecovered}
+                  showDeaths={this.state.showDeaths}
                 />
               ) : null}
-              <div className="row">
-                <div className="col-sm-12 col-md-4">
-                  <input
-                    type="checkbox"
-                    id="confirmedCheckbox"
-                    name="confirmedCheckbox"
-                    value="Confirmed"
-                    checked={this.state.showConfirmed}
-                    onChange={this.tracesCheckboxHandler}
-                  />
-                  <label htmlFor="confirmedCheckbox">Confirmed</label>
-                </div>
-                <div className="col-sm-12 col-md-4">
-                  <input
-                    type="checkbox"
-                    id="recoveredCheckbox"
-                    name="recoveredCheckbox"
-                    value="Recovered"
-                    checked={this.state.showRecovered}
-                    onChange={this.tracesCheckboxHandler}
-                  />
-                  <label htmlFor="recoveredCheckbox">Recovered</label>
-                </div>
-                <div className="col-md-12 col-lg-4">
-                  <input
-                    type="checkbox"
-                    id="deathsCheckbox"
-                    name="deathsCheckbox"
-                    value="Deaths"
-                    checked={this.state.showDeaths}
-                    onChange={this.tracesCheckboxHandler}
-                  />
-                  <label htmlFor="deathsCheckbox">Deaths</label>
-                </div>
-              </div>
-              <div>
-                <button
-                  id="worldwideStatsButton"
-                  className="btn-warning"
-                  hidden={this.state.plotHeader === WORLDWIDE_COVID_STATISTICS}
-                  onClick={this.worldwideStatsButtonHandler}
-                >
-                  See Worldwide Statistics
-                </button>
-              </div>
             </div>
-
-            {this.state.covidocs.length > 0 ? (
-              <div className="col-6">
-                <LegendBox />
-                <hr />
-                <ObservationPeriod covidocs={this.state.covidocs} />
-              </div>
-            ) : null}
           </div>
         </div>
       </Draggable>

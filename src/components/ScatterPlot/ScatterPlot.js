@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Plot from "react-plotly.js";
-import Handle from "../Handle/Handle";
 
 export default class ScatterPlot extends Component {
   prepareData = () => {
@@ -56,9 +55,8 @@ export default class ScatterPlot extends Component {
     const config = { responsive: true };
 
     return (
-      <div className="col-12">
-        <Handle title="Scatter Plot" />
-        <Plot data={data} layout={layout} style={{ width: "95%" }} config={config} />
+      <div>
+        <Plot data={data} layout={layout} style={{ width: "100%", height: "100%"}} config={config} />
       </div>
     );
   };

@@ -2,8 +2,8 @@ import React from "react";
 
 const Navigation = () => {
   return (
-    <div className="row header mb-4">
-      <nav className="navbar navbar-expand-md navbar-dark navigation">
+    <div className="row">
+      <nav className="navbar navbar-expand-md bg-dark navbar-dark navigation col-12">
         <span className="navbar-brand" to="/">
           Covid-19 Statistics App
         </span>
@@ -26,7 +26,7 @@ const Navigation = () => {
                 className="nav-link"
                 // to="/plot-view"
               >
-                Table View
+                Plot View
               </a>
             </li>
             <li className="nav-item">
@@ -35,13 +35,13 @@ const Navigation = () => {
                 className="nav-link"
                 // to="/air-sports"
               >
-               Plot View
+               Data View
               </a>
             </li>
           </ul>
         </div>
       </nav>
-    </div>
+      </div>
   );
 };
 
