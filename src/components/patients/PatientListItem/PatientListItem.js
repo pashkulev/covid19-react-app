@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DateFormatter from "../../util/DateFormatter";
+import DateFormatter from "../../../util/DateFormatter";
 
 const PatientListItem = (props) => {
   return (

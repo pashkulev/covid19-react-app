@@ -1,5 +1,5 @@
 import React from "react";
-import DateFormatter from "../../util/DateFormatter";
+import DateFormatter from "../../../util/DateFormatter";
 
 const ObservationPeriod = (props) => {
   return (

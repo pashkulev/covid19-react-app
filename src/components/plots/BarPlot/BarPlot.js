@@ -3,7 +3,7 @@ import Plot from "react-plotly.js";
 import Draggable from "react-draggable";
 import Pagination from "react-js-pagination";
 import Handle from "../Handle/Handle";
-import CoviDocService from "../../services/CoviDocService";
+import CoviDocService from "../../../services/CoviDocService";
 
 const PAGE_SIZE = 10;
 const STATS_COLORS = {

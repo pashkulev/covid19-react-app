@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import PatientService from "../../services/PatientService";
+import PatientService from "../../../services/PatientService";
 import PatientListItem from "../PatientListItem/PatientListItem";
-import SelectComponent from "../SelectComponent/SelectComponent";
-import Loading from "../Loading/Loading";
+import SelectComponent from "../../common/SelectComponent/SelectComponent";
+import Loading from "../../common/Loading/Loading";
 
 const FILTERS = ["Country", "Location", "Gender", "Age"];
 
@@ -15,8 +15,8 @@ export default class LineListData extends Component {
     locations: [],
     selectedLocation: "",
     selectedGender: "male",
-    fromAge: null,
-    toAge: null,
+    fromAge: 0,
+    toAge: 0,
     patients: [],
     message: "",
   };
@@ -106,7 +106,7 @@ export default class LineListData extends Component {
     }
 
     if (this.state.filters.includes(FILTERS[3])) {
-      if (this.state.fromAge >= this.state.toAge) {
+      if (+this.state.fromAge >= +this.state.toAge) {
         this.setState({
           message: '"To Age" should have a bigger value than "From Age"!',
         });

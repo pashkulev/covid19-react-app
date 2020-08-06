@@ -3,10 +3,9 @@ import Draggable from "react-draggable";
 import ScatterPlot from "../ScatterPlot/ScatterPlot";
 import LegendBox from "../LegendBox/LegendBox";
 import ObservationPeriod from "../ObservationPeriodBox/ObservationPeriodBox";
-import SelectComponent from "../SelectComponent/SelectComponent";
-import CoviDocService from "../../services/CoviDocService";
+import SelectComponent from "../../common/SelectComponent/SelectComponent";
+import CoviDocService from "../../../services/CoviDocService";
 import Handle from "../Handle/Handle";
-import "./CoviDoc.css";
 
 const WORLDWIDE_COVID_STATISTICS = "Worldwide Covid Statistics";
 

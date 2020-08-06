@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import DateFormatter from "../../util/DateFormatter";
+import DateFormatter from "../../../util/DateFormatter";
 
-import PatientService from "../../services/PatientService";
+import PatientService from "../../../services/PatientService";
 
 export default class PatientDetails extends Component {
   state = {
@@ -11,6 +11,7 @@ export default class PatientDetails extends Component {
 
   componentDidMount = async () => {
     const id = this.props.match.params.id;
+    console.log(id);
     const patient = await PatientService.getPatientById(id);
 
     this.setState({ patient: patient });
@@ -61,7 +62,7 @@ export default class PatientDetails extends Component {
                 <div className="col-9">
                   {this.state.patient.symptoms.length === 0
                     ? "N/A"
-                    : this.state.patient.symptoms}
+                    : this.state.patient.symptom}
                 </div>
               </div>
               <hr />
