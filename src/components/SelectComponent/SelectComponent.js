@@ -1,6 +1,6 @@
 import React from "react";
 
-const DropdownComponent = (props) => {
+const SelectComponent = (props) => {
   const options = props.optionValues.map((e, index) => (
     <option key={index} value={e}>
       {e}
@@ -22,4 +22,4 @@ const DropdownComponent = (props) => {
   );
 };
 
-export default DropdownComponent;
+export default SelectComponent;

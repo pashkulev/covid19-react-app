@@ -51,6 +51,39 @@ input[type="radio"] {
   width: 100%;
 }
 
-/* * {
-  border: 1px solid burlywood;
-} */
+.patient {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 10px 0px 10px 0px;
+  background-color: rgb(233, 229, 224);
+}
+
+.table-filter {
+  background-color: #41485a;
+  color: white;
+  width: 100%;
+}
+
+.noResults {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 50px;
+  background-color: rgb(230, 226, 222);
+}
+
+.notification {
+  background-color: aquamarine;
+  padding: 5px;
+  text-align: center;
+}
+
+.loading {
+  background-color: rgb(206, 198, 198);
+  margin-top: 50px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 15px;
+}

@@ -26,18 +26,18 @@ const Navigation = () => {
                   activeClassName="active"
                   // exact
                   className="nav-link"
-                  to="/plot-view"
+                  to="/covid-data-plots"
                 >
-                  Plot View
+                  Covid Data Plots
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
                   activeClassName="active"
                   className="nav-link"
-                  to="/table-view"
+                  to="/line-list-data"
                 >
-                  Table View
+                  Covid Line List Data
                 </NavLink>
               </li>
             </ul>

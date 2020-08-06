@@ -3,7 +3,7 @@ import Draggable from "react-draggable";
 import ScatterPlot from "../ScatterPlot/ScatterPlot";
 import LegendBox from "../LegendBox/LegendBox";
 import ObservationPeriod from "../ObservationPeriodBox/ObservationPeriodBox";
-import DropdownComponent from "../Dropdown/Dropdown";
+import SelectComponent from "../SelectComponent/SelectComponent";
 import CoviDocService from "../../services/CoviDocService";
 import Handle from "../Handle/Handle";
 import "./CoviDoc.css";
@@ -128,7 +128,7 @@ export default class CoviDoc extends Component {
           <div className="row">
             <div className="filter-panel col-3">
               <div>
-                <DropdownComponent
+                <SelectComponent
                   id="countryRegions"
                   optionValues={this.state.country_regions}
                   label="Country/Region"
@@ -137,7 +137,7 @@ export default class CoviDoc extends Component {
                 />
 
                 {this.state.province_states.length > 0 ? (
-                  <DropdownComponent
+                  <SelectComponent
                     id="provinceStates"
                     optionValues={this.state.province_states}
                     label="Province/State"
